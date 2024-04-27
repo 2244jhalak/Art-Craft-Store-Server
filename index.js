@@ -50,6 +50,16 @@ async function run() {
   
   
     })
+    app.get('/craft/:subcategory',async(req,res)=>{
+        const subcategory=req.params.subcategory;
+        const query={subcategory_Name : subcategory };
+        
+        const cursor = craftCollection.find(query);
+        const result = await cursor.toArray();
+        res.send(result);
+  
+  
+    })
     app.get('/craft/:id',async(req,res)=>{
       const id=req.params.id;
       const query={_id :new ObjectId(id) };
