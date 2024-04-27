@@ -35,40 +35,42 @@ async function run() {
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
-    app.get('/craft',async(req,res)=>{
-        const cursor = craftCollection.find();
-        const result = await cursor.toArray();
-        res.send(result);
-    })
-    app.get('/craft/:email',async(req,res)=>{
-        const email=req.params.email;
-        const query={User_Email : email };
+   
+    // app.get('/craft/:email',async(req,res)=>{
+    //     const email=req.params.email;
+    //     console.log(email);
+    //     const query={User_Email : email };
         
-        const cursor = craftCollection.find(query);
-        const result = await cursor.toArray();
-        res.send(result);
+    //     const cursor = craftCollection.find(query);
+    //     const result = await cursor.toArray();
+    //     res.send(result);
   
   
-    })
-    app.get('/craft/:subcategory',async(req,res)=>{
-        const subcategory=req.params.subcategory;
-        const query={subcategory_Name : subcategory };
-        
-        const cursor = craftCollection.find(query);
-        const result = await cursor.toArray();
-        res.send(result);
-  
-  
-    })
-    app.get('/craft/:id',async(req,res)=>{
-      const id=req.params.id;
-      const query={_id :new ObjectId(id) };
-      const result= await craftCollection.findOne(query);
+    // })
+    app.get('/craft', async (req, res)=>{
+      const email = req.query.email;
+      if(email){
+      const result = await craftCollection.find({User_Email: email}).toArray();
+      res.send(result)
+      } 
+      else{
+      const result = await craftCollection.find().toArray();
       res.send(result);
+      }
+      })
+   
+    
+      app.get('/craft/:id',async(req,res)=>{
+        const id=req.params.id;
+        const query={_id :new ObjectId(id) };
+        const result= await craftCollection.findOne(query);
+        res.send(result);
+  
+  
+      })
+    
 
-
-    })
-
+    
     app.post('/craft',async(req,res)=>{
         const newCraft=req.body;
         console.log(newCraft)
