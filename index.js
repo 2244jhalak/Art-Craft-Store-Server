@@ -43,12 +43,20 @@ async function run() {
     app.get('/craft/:email',async(req,res)=>{
         const email=req.params.email;
         const query={User_Email : email };
-        // const result= await craftCollection.findOne(query);
+        
         const cursor = craftCollection.find(query);
         const result = await cursor.toArray();
         res.send(result);
   
   
+    })
+    app.get('/craft/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query={_id :new ObjectId(id) };
+      const result= await craftCollection.findOne(query);
+      res.send(result);
+
+
     })
 
     app.post('/craft',async(req,res)=>{
