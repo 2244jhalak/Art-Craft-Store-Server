@@ -36,41 +36,65 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
    
-    // app.get('/craft/:email',async(req,res)=>{
-    //     const email=req.params.email;
-    //     console.log(email);
-    //     const query={User_Email : email };
-        
-    //     const cursor = craftCollection.find(query);
-    //     const result = await cursor.toArray();
-    //     res.send(result);
-  
-  
-    // })
-    app.get('/craft', async (req, res)=>{
-      const email = req.query.email;
-      if(email){
-      const result = await craftCollection.find({User_Email: email}).toArray();
-      res.send(result)
-      } 
-      else{
-      const result = await craftCollection.find().toArray();
+    app.get('/craft',async(req,res)=>{
+      const cursor = craftCollection.find();
+      const result = await cursor.toArray();
       res.send(result);
-      }
-      })
-   
-    
-      app.get('/craft/:id',async(req,res)=>{
-        const id=req.params.id;
-        const query={_id :new ObjectId(id) };
-        const result= await craftCollection.findOne(query);
-        res.send(result);
-  
-  
-      })
-    
+    })
+    app.get('/myProduct/:email',async(req,res)=>{
+      const email=req.params.email;
+      
+      const result= await craftCollection.find({User_Email : email}).toArray();
+      res.send(result);
 
+
+    })
+    app.get('/details/:id',async(req,res)=>{
+      const id=req.params.id;
+      
+      const result= await craftCollection.findOne({_id : new ObjectId(id)});
+      res.send(result);
+
+
+    })
+    app.get('/updateCraft/:id',async(req,res)=>{
+      const id=req.params.id;
+      
+      const result= await craftCollection.findOne({_id : new ObjectId(id)});
+      res.send(result);
+
+
+    })
+    app.put('/updateCraft/:id',async(req,res)=>{
+      const id=req.params.id;
+      
+      const filter = { _id:new ObjectId(id)};
     
+    const options = { upsert: true };
+    const craft=req.body;
+    
+    const updateCraft = {     
+      $set: {
+        
+
+        image:craft.image,
+        item_name:craft.item_name,
+        subcategory_Name:craft.subcategory_Name,
+        short_description:craft.short_description,
+        price:craft.price,
+        rating:craft.rating,
+        customization:craft.customization,
+        processing_time:craft.processing_time,
+        stockStatus:craft.stockStatus,
+        User_Name:craft.User_Name,
+        User_Email:craft.User_Email
+      },
+    };
+    
+    const result = await craftCollection.updateOne(filter, updateCraft, options);
+    res.send(result);
+    console.log(result);
+    })
     app.post('/craft',async(req,res)=>{
         const newCraft=req.body;
         console.log(newCraft)
