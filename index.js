@@ -95,6 +95,12 @@ async function run() {
     res.send(result);
     console.log(result);
     })
+    app.delete('/craft/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query = { _id: new ObjectId(id) };
+    const result = await craftCollection.deleteOne(query);
+    res.send(result);
+    })
     app.post('/craft',async(req,res)=>{
         const newCraft=req.body;
         console.log(newCraft)
