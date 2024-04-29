@@ -49,6 +49,14 @@ async function run() {
 
 
     })
+    app.get('/category/:subCategory',async(req,res)=>{
+      const subCategory=req.params.subCategory;
+      
+      const result= await craftCollection.find({subcategory_Name : subCategory}).toArray();
+      res.send(result);
+
+
+    })
     app.get('/details/:id',async(req,res)=>{
       const id=req.params.id;
       
