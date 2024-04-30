@@ -16,7 +16,17 @@ const corsConfig = {
   app.use(cors(corsConfig))
 app.use(express.json());
 
-   
+const another = [
+  { subcategory_Name: "Wooden Furniture & Sculptures", email: "john@example.com" },
+  { subcategory_Name: "Wooden Home Decor",  email: "jane@example.com" },
+  { subcategory_Name: "Wooden Utensils and Kitchenware", email: "alice@example.com" },
+  { subcategory_Name: "Jute Home Decor",  email: "bob@example.com" },
+  { subcategory_Name: "Jute Kitchenware & utensils", email: "eva@example.com" },
+  { subcategory_Name: "Jute and wooden jewellery", email: "eva@example.com" }
+];
+
+
+
 
 
 
@@ -36,6 +46,7 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
     const craftCollection = client.db("craftDB").collection('craft');
+    const anotherCollection = client.db("craftDB").collection('another');
     // Send a ping to confirm a successful connection
     // await client.db("admin").command({ ping: 1 });
     // console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -56,6 +67,12 @@ async function run() {
 
 
     })
+    app.get('/another',async(req,res)=>{
+      const cursor = anotherCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+     
     app.get('/myProduct/:email',async(req,res)=>{
       const email=req.params.email;
       
@@ -129,6 +146,12 @@ async function run() {
         const newCraft=req.body;
         console.log(newCraft)
         const result=await craftCollection.insertOne(newCraft);
+        res.send(result);
+    })
+    app.post('/another',async(req,res)=>{
+        const newCraft=req.body;
+        console.log(newCraft)
+        const result=await anotherCollection.insertOne(newCraft);
         res.send(result);
     })
 
