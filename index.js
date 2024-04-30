@@ -41,6 +41,16 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     })
+   
+   
+    app.get('/craft/:subcategory',async(req,res)=>{
+      const subcategory=req.params.email;
+      
+      const result= await craftCollection.find({subcategory_Name : subcategory}).toArray();
+      res.send(result);
+
+
+    })
     app.get('/myProduct/:email',async(req,res)=>{
       const email=req.params.email;
       
@@ -49,14 +59,7 @@ async function run() {
 
 
     })
-    app.get('/category/:subCategory',async(req,res)=>{
-      const subCategory=req.params.subCategory;
-      
-      const result= await craftCollection.find({subcategory_Name : subCategory}).toArray();
-      res.send(result);
-
-
-    })
+    
     app.get('/details/:id',async(req,res)=>{
       const id=req.params.id;
       
@@ -69,6 +72,14 @@ async function run() {
       const id=req.params.id;
       
       const result= await craftCollection.findOne({_id : new ObjectId(id)});
+      res.send(result);
+
+
+    })
+    app.get('/category/:subCategory',async(req,res)=>{
+      const subCategory=req.params.subCategory;
+      
+      const result= await craftCollection.find({subcategory_Name : subCategory}).toArray();
       res.send(result);
 
 
