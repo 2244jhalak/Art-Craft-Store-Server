@@ -17,7 +17,7 @@ This Art & Craft Store project is a dynamic and interactive website designed to 
 - Firebase
 
 ## How to Run Locally
-- Clone the repository: `https://github.com/2244jhalak/Art-Craft-Store-Server.git`
+- Clone the repository: `https://github.com/2244jhalak/RusticRopeCrafts-Server.git`
 - Install dependencies: `npm install`
 - Start the server: `npm run dev`
 
